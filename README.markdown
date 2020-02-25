@@ -40,7 +40,7 @@ Or install it yourself as:
 ## Usage
 
 ```
-Flattenator.new(hash).flattened
+Flattenator::Hash.new(hash).flattened
 ```
 
 ## Development
