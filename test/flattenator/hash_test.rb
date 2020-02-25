@@ -58,7 +58,7 @@ describe Flattenator::Hash do
         "foo_bing" => "bong",
         "quux" => "quuz",
       }
-      subject = Flattenator::Hash.new(source)
+      subject = Flattenator::Hash.new(source, include_unflattened: false)
 
       assert_equal flattened, subject.flattened
     end
@@ -80,7 +80,7 @@ describe Flattenator::Hash do
         "vegetables_0" => "carrots",
         "vegetables_1" => "daikon",
       }
-      subject = Flattenator::Hash.new(source)
+      subject = Flattenator::Hash.new(source, include_unflattened: false)
 
       assert_equal flattened, subject.flattened
     end
@@ -102,14 +102,48 @@ describe Flattenator::Hash do
         "foo_bar_shapes_0" => "square",
         "foo_bar_shapes_1" => "circle",
       }
-      subject = Flattenator::Hash.new(source)
+      subject = Flattenator::Hash.new(source, include_unflattened: false)
 
       assert_equal flattened, subject.flattened
     end
 
-    it "includes a JSON-encoded version of the flattened hashes or arrays by default"
+    it "includes a JSON-encoded version of the flattened hashes or arrays by default" do
+      source = {
+        foo: "bar",
+        bing: {
+          bang: "bong",
+        },
+        fruits: [
+          "apple",
+          "banana",
+        ],
+      }
+      subject = Flattenator::Hash.new(source)
 
-    it "can optionally not include this JSON-encoded version of the flattened hashes or arrays"
+      assert_equal JSON.dump(source[:bing]), subject.flattened["bing"]
+      assert_equal JSON.dump(source[:fruits]), subject.flattened["fruits"]
+    end
+
+    it "can optionally not include this JSON-encoded version of the flattened hashes or arrays" do
+      source = {
+        foo: "bar",
+        bing: {
+          bang: "bong",
+        },
+        fruits: [
+          "apple",
+          "banana",
+        ],
+      }
+      flattened = {
+        "bing" => JSON.dump(source[:bing]),
+        "fruits" => JSON.dump(source[:fruits]),
+      }
+      subject = Flattenator::Hash.new(source, include_unflattened: false)
+
+      refute subject.flattened.include?("bing")
+      refute subject.flattened.include?("bong")
+    end
 
     it "converts unhelpful characters into underscores" do
       source = {
