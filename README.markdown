@@ -1,8 +1,25 @@
 # Flattenator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/flattenator`. To experiment with that code, run `bin/console` for an interactive prompt.
+Converts a deeply nested hash with a flattened hash, prefixing the keys for child hashes. It's easier to show than to explain:
 
-TODO: Delete this and the text above, and describe your gem
+```ruby
+# start with this
+{
+  foo: "bar",
+  baz: {
+    apple: 2,
+    banana: 5,
+    carrot: 0,
+  },
+}
+# end with this
+{
+  foo: "bar",
+  baz_apple: 2,
+  baz_banana: 5,
+  baz_carrot: 0,
+}
+```
 
 ## Installation
 
@@ -22,7 +39,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+Flattenator.new(hash).flattened
+```
 
 ## Development
 
