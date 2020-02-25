@@ -14,10 +14,10 @@ Converts a deeply nested hash with a flattened hash, prefixing the keys for chil
 }
 # end with this
 {
-  foo: "bar",
-  baz_apple: 2,
-  baz_banana: 5,
-  baz_carrot: 0,
+  "foo" => "bar",
+  "baz_apple" => 2,
+  "baz_banana" => 5,
+  "baz_carrot" => 0,
 }
 ```
 
@@ -41,6 +41,60 @@ Or install it yourself as:
 
 ```
 Flattenator::Hash.new(hash).flattened
+```
+
+By default, a JSON-encoded version of the object being flattened will be included in the flattened hash, but this can be turned off.
+
+```ruby
+original = {
+  foo: "bar",
+  options: {
+    jiggle_handle: true,
+    tighten_valve: false,
+  },
+}
+
+Flattenator::Hash.new(original).flattened
+{
+  "foo" => "bar",
+  "options" => "{\"jiggle_handle\":true,\"tighten_valve\":false}"
+  "options_jiggle_handle" => true,
+  "options_tighten_valve" => false,
+}
+
+Flattenator::Hash.new(original, include_unflattened: false).flattened
+{
+  "foo" => "bar",
+  "options_jiggle_handle" => true,
+  "options_tighten_valve" => false,
+}
+```
+
+Additionally, arrays are flattened into the form `{key}_{index}`, like so:
+
+```ruby
+original = {
+  fruits: [
+    "apple",
+    "banana",
+    "citrus",
+  ],
+  vegetables: [
+    "daikon",
+    "eggplant",
+  ],
+}
+
+Flattenator::Hash.new(original).flattened
+{
+  "fruits" => "[\"apple\",\"banana\",\"citrus\"]",
+  "fruits_0" => "apple",
+  "fruits_1" => "banana",
+  "fruits_2" => "citrus",
+  "vegetables" => "[\"daikon\",\"eggplant\"]",
+  "vegetables_0" => "daikon",
+  "vegetables_1" => "eggplant",
+}
 ```
 
 ## Development
