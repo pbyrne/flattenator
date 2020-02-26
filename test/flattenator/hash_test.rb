@@ -1,5 +1,4 @@
 require "test_helper"
-require "flattenator/hash"
 
 class HashLike
   def each_pair
