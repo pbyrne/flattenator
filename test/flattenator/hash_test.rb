@@ -1,5 +1,4 @@
 require "test_helper"
-require "flattenator/hash"
 
 class HashLike
   def each_pair
@@ -134,10 +133,6 @@ describe Flattenator::Hash do
           "apple",
           "banana",
         ],
-      }
-      flattened = {
-        "bing" => JSON.dump(source[:bing]),
-        "fruits" => JSON.dump(source[:fruits]),
       }
       subject = Flattenator::Hash.new(source, include_unflattened: false)
 

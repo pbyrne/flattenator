@@ -1,6 +1,6 @@
+require "flattenator/hash"
 require "flattenator/version"
 
 module Flattenator
-  class Error < StandardError; end
-  # Your code goes here...
+  Error = Class.new(StandardError)
 end
