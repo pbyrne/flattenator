@@ -134,10 +134,6 @@ describe Flattenator::Hash do
           "banana",
         ],
       }
-      flattened = {
-        "bing" => JSON.dump(source[:bing]),
-        "fruits" => JSON.dump(source[:fruits]),
-      }
       subject = Flattenator::Hash.new(source, include_unflattened: false)
 
       refute subject.flattened.include?("bing")
